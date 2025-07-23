@@ -1,5 +1,19 @@
 #include "header.h"
 
+int	len_to_separator(char *str, char *sep)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (is_in_separator(sep, str[i]))
+			return (i);
+		i++;
+	}
+	return (i);
+}
+
 int is_in_separator(char *sep, char c)
 {
 	int i;
@@ -12,6 +26,25 @@ int is_in_separator(char *sep, char c)
 		i++;
 	}
 	return (0);
+}
+
+char *copy_words(char *str, char *sep)
+{
+	int i;
+	int len;
+	char *new;
+
+	len = len_to_separator(str, sep);
+	if (!(new = malloc((len + 1) * sizeof(char))))
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		new[i] = str[i];
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
 }
 
 int	count_words(char *str, char *sep)
@@ -38,19 +71,46 @@ int	count_words(char *str, char *sep)
 
 char **split(char *str, char *sep)
 {
-	// int		i;
+	int		i;
 	int		word_len;
-	// char	**arr;
+	char	**arr;
 
 	if (!str)
 		return (NULL);
 	word_len = count_words(str, sep);
-	printf("Number of words is:%d\n", word_len);
-	return (NULL);
+	if (!(arr = malloc((word_len + 1) * sizeof (char *))))
+		return (NULL);
+	i = 0;
+	while (*str)
+	{
+		while (*str && is_in_separator(sep, *str))
+		{
+			arr[i] = copy_words(str, sep);
+			i++;
+			str++;
+		}
+		if (*str)
+		{
+			arr[i] = copy_words(str, sep);
+			i++;
+		}
+		while (*str && !is_in_separator(sep, *str))
+			str++;
+	}
+	arr[i] = NULL;
+	return (arr);
 }
 
 int main(int ac, char **av)
 {
+	char **arr;
 	(void) ac;
-	split(av[1], "+()");
+
+	arr = split(av[1], "+()");
+	int i = 0;
+	while (arr[i])
+	{
+		printf("%s\n", arr[i]);
+		i++;
+	}
 }
