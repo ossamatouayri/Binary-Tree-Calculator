@@ -5,6 +5,8 @@ int	len_to_separator(char *str, char *sep)
 	int i;
 
 	i = 0;
+	if (is_in_separator(sep, str[i]))
+		return (1);
 	while (str[i])
 	{
 		if (is_in_separator(sep, str[i]))
@@ -101,16 +103,31 @@ char **split(char *str, char *sep)
 	return (arr);
 }
 
+
+int check_errors(char **arr)
+{
+	int i;
+
+	i = 0;
+	if (!is_digit(arr[i]))
+		return (printf("Error\n"), 0);
+	while (arr[i])
+	{
+		if (!is_digit(arr[i]) && !is_digit(arr[i + 1]))
+			return (printf("Error\n"), 0);
+		i++;
+	}
+	if (!is_digit(arr[i - 1]))
+		return (printf("Error\n"), 0);
+	return (1);
+}
+
 int main(int ac, char **av)
 {
 	char **arr;
 	(void) ac;
 
 	arr = split(av[1], "+()");
-	int i = 0;
-	while (arr[i])
-	{
-		printf("%s\n", arr[i]);
-		i++;
-	}
+	if (!check_errors(arr))
+		return (1);
 }

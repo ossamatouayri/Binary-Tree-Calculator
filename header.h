@@ -17,5 +17,7 @@ int	count_words(char *str, char *sep);
 int	len_to_separator(char *str, char *sep);
 int is_in_separator(char *sep, char c);
 char *copy_words(char *str, char *sep);
+int is_digit(char *str);
+int check_digit(char c);
 
 #endif
