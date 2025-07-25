@@ -19,5 +19,9 @@ int is_in_separator(char *sep, char c);
 char *copy_words(char *str, char *sep);
 int is_digit(char *str);
 int check_digit(char c);
+int check_other_char(char c);
+int is_other_char(char *str);
+int ft_strcmp(char *str1, char *str2);
+int check_closed_parantheses(char **arr);
 
 #endif

@@ -109,16 +109,20 @@ int check_errors(char **arr)
 	int i;
 
 	i = 0;
+	if (!check_closed_parantheses(arr))
+		return (0);
 	if (!is_digit(arr[i]))
-		return (printf("Error\n"), 0);
+		return (printf("syntax error near unexpected token `%s'\n", arr[i]), 0);
 	while (arr[i])
 	{
 		if (!is_digit(arr[i]) && !is_digit(arr[i + 1]))
-			return (printf("Error\n"), 0);
+			return (printf("syntax error near unexpected token `%s'\n", arr[i]), 0);
+		if (!is_other_char(arr[i]))
+			return (printf("syntax error near unexpected token `%s'\n", arr[i]), 0);
 		i++;
 	}
 	if (!is_digit(arr[i - 1]))
-		return (printf("Error\n"), 0);
+		return (printf("syntax error near unexpected token `%s'\n", arr[i - 1]), 0);
 	return (1);
 }
 
